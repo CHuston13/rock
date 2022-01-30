@@ -1,26 +1,51 @@
-const buttons=document.querySelectorAll('Parent')
+let playerScore = 0
+let computerScore = 0
+const buttons = document.querySelectorAll('input')
 
-
-
-
-function computerPlay(){
-    const computerSelection = ['Rock','Paper','Scissors']
-   return Math.floor(math.random()) * computerSelection.length;
-    
+function computerPlay() {
+    let choices = ['rock', 'paper', 'scissors']
+    return choices[Math.floor(Math.random() * choices.length)]
 }
-function playRound(){
-    let playerScore=0
-    let computerScore=0
-    let result=''
-    if ((playerSelection=='Rock' && computerSelection =='Scissors' || playerSelection=='Paper' && computerSelection=='Rock'|| playerSelection=='scissors' && computerSelection=='paper'))
-  
-  
-        playerScore+=1
-        result=('Come Forth my Champion'+ playerSelection + 'beats' + computerSelection + "<br><br>Player score:"+playerScore+ '<br>computerScore:</br>'+ computerScore);
 
+function disableButtons() {
+    buttons.forEach(elem => {
+        elem.disabled = true
+    })
+}
 
+function playRound(playerSelection) {
+    let computerSelection = computerPlay()
+    let result = ""
 
+    if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
+        (playerSelection == 'scissors' && computerSelection == 'paper') ||
+        (playerSelection == 'paper' && computerSelection == 'rock')) {
+        
+        playerScore += 1
+        result = ('You win! ' + playerSelection + ' beats ' + computerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
 
+        if (playerScore == 5) {
+            result += '<br><br>You won the game! Reload the page to play again'
+            disableButtons()
+        }
+    }
+    else if (playerSelection == computerSelection) {
+        result = ('It\'s a tie. You both chose ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
+    }
+    else {
+        computerScore += 1
+        result = ('You lose! ' + computerSelection + ' beats ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
 
-   const playerSelection='Rock, Paper, Scissors';}
-    const computerSelection=computerPlay();
+        if (computerScore == 5) {
+            result += '<br><br>I won the game! Reload the page to play again'
+            disableButtons()
+        }
+    }
+
+    document.getElementById('result').innerHTML = result
+    return
+}
+
